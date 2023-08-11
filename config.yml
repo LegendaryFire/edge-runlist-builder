@@ -1,0 +1,23 @@
+edge:
+  username: email@example.com
+  password: password
+shadow:
+  username: username
+  password: password
+settings:
+  edge:
+    auction: auction-code
+    consignor: consignor-name
+regex:
+  shadow:
+    purchaser:
+      first_name: 'optional'
+      last_name: 'optional'
+table:
+  layout:
+    col1: run_number
+    col2: description
+    col3: vin
+    col4: sold_price
+    col6: 'sale notes'
+    col11: seller_name
