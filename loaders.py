@@ -76,7 +76,6 @@ class EdgePipeline:
                 })
 
         os.remove(filepath)  # Delete the downloaded CSV once we're done with it.
-
         return presale_data[1:]
 
     def close(self):
@@ -88,6 +87,12 @@ class ShadowHelper:
         self.__config = config
 
     def match_with_runlist(self, runlist, filter_matches=True) -> list:
+        """
+        Checks vehicle in the presale runlist with the point of sales to see which ones are owned by the Shadow Helper user.
+        :param runlist: The vehicle runlist from Edge Pipeline.
+        :param filter_matches: Apply the filters specified in the configuration file. Default is True.
+        :return: Returns a list of vehicles that match the conditions in the configuration.
+        """
         session = requests.Session()
         results = []
 
@@ -114,6 +119,12 @@ class ShadowHelper:
 
     @staticmethod
     def __build_vehicle_url(vin, credentials) -> str:
+        """
+        Helper method to build the URL to pull vehicle data from Shadow Helper.
+        :param vin: The VIN of the vehicle.
+        :param credentials: The Credentials object for Shadow Helper.
+        :return:
+        """
         url = f"https://shadowhelper.com/watcher/api.php?vin={vin}" \
               f"&user={credentials.get_username()}" \
               f"&pass={credentials.get_password()}"

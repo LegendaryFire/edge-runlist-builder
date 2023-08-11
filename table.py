@@ -3,7 +3,12 @@ class TableBuilder:
         self.__layout = layout
         self.__columns = [int(s.strip('col')) for s in list(layout.keys())]
 
-    def build_table(self, vehicle_list):
+    def build_table(self, vehicle_list) -> str:
+        """
+        Builds a table from the vehicle data provided and the table layout in the configuration file.
+        :param vehicle_list: A list of vehicles pulled from Shadow Helper.
+        :return: Returns the table as a string.
+        """
         table = ''
         for vehicle in vehicle_list:
             for i in range(1, max(self.__columns) + 1):
