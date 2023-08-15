@@ -1,5 +1,5 @@
 class Vehicle:
-    def __init__(self, run_number=None, json=None):
+    def __init__(self, json=None):
         self._run_number = None
         self._year = None
         self._make = None
@@ -8,9 +8,6 @@ class Vehicle:
         self._vin = None
         self._sale_price = None
         self._seller = None
-
-        if run_number:
-            self._run_number = run_number
 
         if json:
             self._year = json['vehicle_info']['year']
