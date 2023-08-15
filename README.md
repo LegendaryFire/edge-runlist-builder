@@ -44,3 +44,5 @@ The table layout is configured as follows. Any columns without the variable name
 | vin | Last 6 of the VIN |
 | sold_price | Breakeven cost in CDN dollars |
 | seller_name | Source of vehicle |
+
+To run the script call ```python main.py -use_filters``` to use the regex filters specified in the configuration, or ```python main.py``` to use without regex filters.
