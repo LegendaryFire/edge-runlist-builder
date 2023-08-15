@@ -145,3 +145,26 @@ class Vehicle:
         :return: Returns None.
         """
         self._seller = seller
+
+    def fill_empty(self, vehicle) -> None:
+        """
+        Takes a vehicle object and fills remaining empty properties with the data.
+        :param vehicle: The vehicle object.
+        :return: Returns None.
+        """
+        if not self._run_number:
+            self._run_number = vehicle.get_run_number()
+        if not self._year:
+            self._year = vehicle.get_year()
+        if not self._make:
+            self._make = vehicle.get_make()
+        if not self._model:
+            self._model = vehicle.get_model()
+        if not self._trim:
+            self._trim = vehicle.get_trim()
+        if not self._vin:
+            self._vin = vehicle.get_vin()
+        if not self._sale_price:
+            self._sale_price = vehicle.get_sale_price()
+        if not self._seller:
+            self._seller = vehicle.get_seller()
