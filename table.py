@@ -15,13 +15,13 @@ class TableBuilder:
                 if i in self.__columns:
                     match self.__layout[f'col{i}']:
                         case 'run_number':
-                            table += f'vehicle.get_run_number()\t'
+                            table += f'{vehicle.get_run_number()}\t'
                         case 'description':
                             table += f'{vehicle.get_year()} {vehicle.get_make()} {vehicle.get_model()} {vehicle.get_trim()}\t'
                         case 'vin':
                             table += f"'{vehicle.get_vin()[-6:]}\t"
                         case 'sold_price':
-                            table += f'{vehicle.get_sold_price()}\t'
+                            table += f'{vehicle.get_sale_price()}\t'
                         case 'seller_name':
                             table += f'{vehicle.get_seller()}\t'
                         case _:
