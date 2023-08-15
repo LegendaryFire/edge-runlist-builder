@@ -45,10 +45,10 @@ class EdgePipeline:
 
         return True
 
-    def get_vehicle_runlist(self) -> list:
+    def get_vehicle_runlist(self) -> list[Vehicle]:
         """
         Downloads the presale data for DAA Northwest.
-        :return: Returns the filepath for the downloaded CSV presale data. Returns False if failed or timed out.
+        :return: Returns a list of Vehicles with the run-number and VIN.
         """
         url = f"https://www.edgepipeline.com/components/report/presale/csv/" \
               f"{self.__config.get_auction()}?consignor={self.__config.get_consignor()}"
@@ -60,23 +60,22 @@ class EdgePipeline:
             if os.path.exists(filepath):
                 break
             elif timer > timeout:
-                print("Unable to download presale data. Please try again.")
-                raise TimeoutError("Presale data download timed out.")
+                raise TimeoutError("Pre-sale data download timed out.")
             time.sleep(0.25)
             timer += 250
 
-        presale_data = []
+        vehicle_runlist = []
         with open(f'edgepipeline_presale_{self.__config.get_auction()}.csv') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                presale_data.append({
-                    "Run Number": row[1],
-                    "VIN": row[14],
-                    "Grade": row[11],
-                })
+                vehicle = Vehicle()
+                vehicle.set_run_number(row[1])
+                vehicle.set_vin(row[14])
+                vehicle_runlist.append(vehicle)
 
         os.remove(filepath)  # Delete the downloaded CSV once we're done with it.
-        return presale_data[1:]
+        # First row is the headers, we don't include those.
+        return vehicle_runlist[1:]
 
     def close(self):
         self._driver.close()
@@ -96,11 +95,12 @@ class ShadowHelper:
         session = requests.Session()
         results = []
 
-        for vehicle in runlist:
-            resp = session.get(self.__build_vehicle_url(vehicle['VIN'], self.__config.get_credentials()))
+        for edge_vehicle in runlist:
+            resp = session.get(self.__build_vehicle_url(edge_vehicle.get_vin(), self.__config.get_credentials()))
             # Check to see if we have a vehicle match.
             vehicle_data = resp.json()
             if 'error' not in vehicle_data:
+                shadow_vehicle = Vehicle(json=vehicle_data)
                 # Does this vehicle match our conditions specified in the Shadow Helper configuration?
                 conditions_met = True
                 if self.__config.get_first_name_regex():
@@ -112,9 +112,11 @@ class ShadowHelper:
 
                 if filter_matches:
                     if conditions_met:
-                        results.append(Vehicle(vehicle['Run Number'], resp.json()))
+                        edge_vehicle.fill_empty(shadow_vehicle)
+                        results.append(edge_vehicle)
                 else:
-                    results.append(Vehicle(vehicle['Run Number'], resp.json()))
+                    edge_vehicle.fill_empty(shadow_vehicle)
+                    results.append(edge_vehicle)
         return results
 
     @staticmethod
