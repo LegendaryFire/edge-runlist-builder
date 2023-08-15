@@ -85,11 +85,11 @@ class ShadowHelper:
     def __init__(self, config):
         self.__config = config
 
-    def match_with_runlist(self, runlist, filter_matches=True) -> list:
+    def match_with_runlist(self, runlist, use_filters=True) -> list:
         """
         Checks vehicle in the presale runlist with the point of sales to see which ones are owned by the Shadow Helper user.
         :param runlist: The vehicle runlist from Edge Pipeline.
-        :param filter_matches: Apply the filters specified in the configuration file. Default is True.
+        :param use_filters: Apply the filters specified in the configuration file. Default is True.
         :return: Returns a list of vehicles that match the conditions in the configuration.
         """
         session = requests.Session()
@@ -110,7 +110,7 @@ class ShadowHelper:
                     if not re.match(self.__config.get_last_name_regex(), vehicle_data['vehicle_purchaser']['lastname']):
                         conditions_met = False
 
-                if filter_matches:
+                if use_filters:
                     if conditions_met:
                         edge_vehicle.fill_empty(shadow_vehicle)
                         results.append(edge_vehicle)
