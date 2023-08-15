@@ -1,5 +1,14 @@
 class Vehicle:
     def __init__(self, run_number=None, json=None):
+        self._run_number = None
+        self._year = None
+        self._make = None
+        self._model = None
+        self._trim = None
+        self._vin = None
+        self._sale_price = None
+        self._seller = None
+
         if run_number:
             self._run_number = run_number
 
