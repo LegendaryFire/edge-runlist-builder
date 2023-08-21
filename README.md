@@ -3,7 +3,7 @@ Edge Runlist Builder is small personal project of mine to automate building vehi
 
 ### Requirements
 * Python 3.10 and higher
-* WebDriver for Google Chrome
+* WebDriver for Google Chrome (version 114 and lower)
 
 ### Configuration
 The configuration file is located in config.yml, an example configuration can be found below.
