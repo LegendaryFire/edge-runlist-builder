@@ -15,18 +15,22 @@ class TableBuilder:
                 if i in self.__columns:
                     match self.__layout[f'col{i}']:
                         case 'run_number':
-                            table += f'{vehicle.get_run_number()}\t'
+                            table += f'{vehicle.get_run_number()}'
                         case 'description':
-                            table += f'{vehicle.get_year()} {vehicle.get_make()} {vehicle.get_model()} {vehicle.get_trim()}\t'
+                            table += f'{vehicle.get_year()} {vehicle.get_make()} {vehicle.get_model()} {vehicle.get_trim()}'
                         case 'vin':
-                            table += f"'{vehicle.get_vin()[-6:]}\t"
+                            table += f"'{vehicle.get_vin()[-6:]}"
                         case 'sold_price':
-                            table += f'{vehicle.get_sale_price()}\t'
+                            table += f'{vehicle.get_sale_price()}'
                         case 'seller_name':
-                            table += f'{vehicle.get_seller()}\t'
+                            table += f'{vehicle.get_seller()}'
                         case _:
-                            table += f"{self.__layout[f'col{i}']}\t"
+                            table += f"{self.__layout[f'col{i}']}"
+                    # Only add new column if we are not at the last column in the row.
+                    if i != max(self.__columns):
+                        table += '\t'
                 else:
+                    # Column not specified, skip column.
                     table += '\t'
             table += '\n'
         return table
