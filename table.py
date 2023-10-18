@@ -1,3 +1,7 @@
+import numpy
+from tabulate import tabulate
+
+
 class TableBuilder:
     def __init__(self, layout):
         self.__layout = layout
@@ -33,4 +37,25 @@ class TableBuilder:
                     # Column not specified, skip column.
                     table += '\t'
             table += '\n'
+        return table
+
+    @staticmethod
+    def build_generic(vehicle_list) -> str:
+        """
+        Builds a generic table from the vehicle data provided.
+        :param vehicle_list: A list of vehicles pulled from Shadow Helper.
+        :return: Returns the table as a string.
+        """
+        table = []
+        headers = ["Run #", "Vehicle", "VIN", "Cost (CAD)", "Source"]
+        for vehicle in vehicle_list:
+            row = [vehicle.get_run_number(),
+                   f'{vehicle.get_year()} {vehicle.get_make()} {vehicle.get_model()} {vehicle.get_trim()}',
+                   vehicle.get_vin()[-6:],
+                   vehicle.get_sale_price(),
+                   vehicle.get_seller()]
+            table.append(row)
+
+        table = numpy.array(table)
+        table = tabulate(table, headers, tablefmt="rounded_grid")
         return table
