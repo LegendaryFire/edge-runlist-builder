@@ -33,7 +33,7 @@ table:
     col11: seller_name
 ```
 
-Regular expessions can be used for filtering vehicles in the presale data.
+Regular expressions can be used for filtering vehicles in the presale data.
 
 The table layout is configured as follows. Any columns without the variable names below can be used to input Excel functions or basic text. Any unused columns are assumed blank.
 
@@ -45,4 +45,4 @@ The table layout is configured as follows. Any columns without the variable name
 | sold_price | Breakeven cost in CDN dollars |
 | seller_name | Source of vehicle |
 
-To run the script call ```python main.py -use_filters``` to use the regex filters specified in the configuration, or ```python main.py``` to use without regex filters.
+To run the script call ```python main.py -use_filters``` to use the regex filters specified in the configuration, or ```python main.py``` to use without regex filters. This script can also be ran without copying a table to the clipboard, but printing a generic table to the console instead by using the ```-print_only``` flag.
